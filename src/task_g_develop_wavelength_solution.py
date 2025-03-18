@@ -100,10 +100,10 @@ class Task_g_develop_wavelength_solution:
 
     @staticmethod
     def develop_wavelength_solution(calib_lamp_peaks, frame_peaks):
-        # We need to associate the known wavelengths from the calibration lamp
+        # I need to associate the known wavelengths from the calibration lamp
         # with the detected peak positions on the detector
         
-        # For each order, we'll create a polynomial fit that maps
+        # For each order, I'll create a polynomial fit that maps
         # detector x-position to wavelength
         
         # Group peaks by order
@@ -114,7 +114,7 @@ class Task_g_develop_wavelength_solution:
             # Get peaks for this order
             order_peaks = frame_peaks[frame_peaks[:, 0] == order_idx]
             
-            # For demonstration, we'll use a simple approach:
+            # For demonstration, I'll use a simple approach:
             # Assume the peaks are in the same order as in the calibration lamp
             # (This is not generally true and would need a more sophisticated matching algorithm)
             
@@ -150,7 +150,7 @@ class Task_g_develop_wavelength_solution:
                 axes[0].scatter(detector_positions, wavelengths, c='b', label='Peaks')
                 axes[0].plot(x_dense, y_fit, 'r-', label='Polynomial Fit')
                 axes[0].set_ylabel('Wavelength (nm)')
-                axes[0].set_title(f'Order {order_idx} Wavelength Solution')
+                axes[0].set_title(f'Order {order_idx+1} Wavelength Solution')
                 axes[0].legend()
                 
                 # Plot residuals
@@ -161,13 +161,13 @@ class Task_g_develop_wavelength_solution:
                 axes[1].set_title(f'RMS Error: {rms_error:.3f} nm')
                 
                 plt.tight_layout()
-                plt.savefig(os.path.join("results", f'wavelength_solution_order_{order_idx}.png'), dpi=300, bbox_inches='tight')
+                plt.savefig(os.path.join("results", f'wavelength_solution_order_{order_idx+1}.png'), dpi=300, bbox_inches='tight')
                 plt.show()
         
         # Summarize the wavelength solutions
         print("\nWavelength Solution Summary:")
         for order_idx, coeffs, rms_error in wavelength_solutions:
-            print(f"Order {order_idx}: RMS Error = {rms_error:.4f} nm")
+            print(f"Order {order_idx+1}: RMS Error = {rms_error:.4f} nm")
         
         return wavelength_solutions
     
@@ -214,7 +214,7 @@ class Task_g_develop_wavelength_solution:
             
             # Plot the wavelength solution
             plt.plot(x_dense, wavelengths, '-', color=colors[i], 
-                    label=f'Order {order_idx} (RMS: {rms_error:.3f} nm)')
+                    label=f'Order {order_idx+1} (RMS: {rms_error:.3f} nm)')
         
         plt.title('Wavelength Solutions for All Orders')
         plt.xlabel('Detector X Position (pixel)')
@@ -239,15 +239,15 @@ class Task_g_develop_wavelength_solution:
         # Create a full spectral coverage visualization
         plt.figure(figsize=(14, 6))
         
-        # Sort by wavelength
-        wavelength_ranges.sort(key=lambda x: x[1])
+        # Sort by order
+        wavelength_ranges.sort(key=lambda x: x[0])
         
         # Plot each order's coverage as a horizontal line
         for i, (order_idx, min_wl, max_wl, rms_error) in enumerate(wavelength_ranges):
             plt.plot([min_wl, max_wl], [i, i], '-', linewidth=3, 
                     color=plt.cm.viridis(i/len(wavelength_ranges)))
-            plt.text(min_wl - 5, i, f"{order_idx}", va='center', ha='right', fontsize=8)
-            plt.text(max_wl + 5, i, f"{min_wl:.1f}-{max_wl:.1f} nm", va='center', ha='left', fontsize=8)
+            plt.text(min_wl - 2, i, f"{order_idx+1}", va='center', ha='right', fontsize=8)
+            plt.text(max_wl + 2, i, f"{min_wl:.1f}-{max_wl:.1f} nm", va='center', ha='left', fontsize=8)
         
         plt.title('Spectral Coverage of All Orders')
         plt.xlabel('Wavelength (nm)')
@@ -264,7 +264,7 @@ class Task_g_develop_wavelength_solution:
         print("-" * 60)
         
         for order_idx, min_wl, max_wl, rms_error in wavelength_ranges:
-            print(f"{order_idx:5d} | {min_wl:10.2f} | {max_wl:10.2f} | {max_wl-min_wl:10.2f} | {rms_error:15.4f}")
+            print(f"{order_idx+1:5d} | {min_wl:10.2f} | {max_wl:10.2f} | {max_wl-min_wl:10.2f} | {rms_error:15.4f}")
         
         print("\nTotal Spectral Coverage:")
         print(f"Minimum wavelength: {min_wavelength:.2f} nm")

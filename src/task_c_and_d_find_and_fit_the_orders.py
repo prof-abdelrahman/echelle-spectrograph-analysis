@@ -30,6 +30,7 @@ class Task_c_and_d_find_and_fit_the_orders:
         plt.title('Order Profile with Detected Order Centers')
         plt.xlabel('Row Index')
         plt.ylabel('Intensity')
+        plt.legend(['Order Profile', 'Detected Order Centers'])
         plt.savefig(os.path.join("results","order_identification.png"), dpi=300, bbox_inches='tight')
         plt.show()
         
@@ -63,7 +64,7 @@ class Task_c_and_d_find_and_fit_the_orders:
             
             # Extract a vertical profile (slit direction) centered on a bright part of the order
             bright_col = np.argmax(order_slice)
-            slit_range = 100  # Adjust based on your data
+            slit_range = 100  # Can be Adjusted based on my data
             y_slit = np.arange(max(0, order_center - slit_range), min(flat.shape[0], order_center + slit_range))
             slit_slice = flat[y_slit, bright_col]
             
