@@ -99,7 +99,7 @@ ECHELLE-SPECTROGRAPH-ANALYSIS/
 
 1. Ensure all dependencies are installed:
     ```
-  pip install numpy scipy matplotlib pandas seaborn
+    pip install numpy scipy matplotlib pandas seaborn
     ```
 
 2. Open and run the `main.ipynb` notebook:
