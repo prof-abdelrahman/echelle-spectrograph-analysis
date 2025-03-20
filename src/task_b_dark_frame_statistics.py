@@ -9,6 +9,24 @@ class Task_b_dark_frame_statistics:
         """
         For each pixel compute the statistics across dark frames.
         Then summarize the statistics (mean and std distribution across the detector).
+        
+        Parameters:
+            darks: ndarray, shape (num_frames, height, width)
+                Dark frames.
+                
+        Returns:
+            dark_mean: ndarray, shape (height, width)
+                Mean dark frame.
+            dark_std: ndarray, shape (height, width)
+                Standard deviation dark frame.
+            overall_mean: float
+                Overall mean of pixel dark level.
+            overall_median: float
+                Overall median of pixel dark level.
+            overall_std_mean: float
+                Overall mean of pixel dark level standard deviation.
+            overall_mean_std: float
+                Overall mean of pixel dark level standard deviation.
         """
         dark_mean = np.mean(darks, axis=0)
         dark_std = np.std(darks, axis=0)
@@ -30,7 +48,12 @@ class Task_b_dark_frame_statistics:
     # Task b plots' functions
     @staticmethod
     def visualize_mean_dark_frame(dark_mean):
-        """Visualize the mean dark frame."""
+        """Visualize the mean dark frame.
+        
+        Parameters:
+            dark_mean: ndarray, shape (height, width)
+                Mean dark frame.
+        """
         plt.figure(figsize=(10, 10))
         plt.imshow(dark_mean, cmap="gray", origin="upper")
         plt.colorbar(label='Intensity')
@@ -42,7 +65,14 @@ class Task_b_dark_frame_statistics:
         
     @staticmethod
     def histogram_of_bias_values(dark_mean, mean_dark_summary):
-        """Plot histogram of bias values."""
+        """Plot histogram of bias values.
+        
+        Parameters:
+            dark_mean: ndarray, shape (height, width)
+                Mean dark frame.
+            mean_dark_summary: float
+                Overall mean of pixel dark level
+        """
         plt.figure(figsize=(10, 6))
         plt.hist(dark_mean.flatten(), bins=100, color='skyblue', edgecolor='black', alpha=0.7)
         plt.title('Histogram of Dark Frame Bias Values')
@@ -56,7 +86,12 @@ class Task_b_dark_frame_statistics:
         
     @staticmethod
     def visualize_std_dark_frame(dark_std):
-        """Visualize the standard deviation dark frame."""
+        """Visualize the standard deviation dark frame.
+        
+        Parameters:
+            dark_std: ndarray, shape (height, width)
+                Standard deviation dark frame.
+        """
         plt.figure(figsize=(10, 10))
         plt.imshow(dark_std, cmap='viridis', origin='upper')
         plt.colorbar(label='Standard Deviation')
@@ -68,7 +103,14 @@ class Task_b_dark_frame_statistics:
         
     @staticmethod
     def histogram_of_noise_values(dark_std, mean_noise_summary):
-        """Plot histogram of noise values."""
+        """Plot histogram of noise values.
+        
+        Parameters:
+            dark_std: ndarray, shape (height, width)
+                Standard deviation dark frame.
+            mean_noise_summary: float
+                Overall mean of pixel dark level standard deviation
+        """
         plt.figure(figsize=(10, 6))
         plt.hist(dark_std.flatten(), bins=100, color='orange', edgecolor='black', alpha=0.7)
         plt.title('Histogram of Dark Frame Noise Values')

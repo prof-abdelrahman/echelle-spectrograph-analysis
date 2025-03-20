@@ -4,6 +4,25 @@ import os
 class Task_a_describe_the_data:
     @staticmethod
     def describe_data():
+        """
+        Load the data files and print out summary information about the data.
+        
+        Returns:
+            darks: ndarray, shape (num_frames, height, width)
+                Dark frames.
+            flat: ndarray, shape (height, width)
+                Flat field.
+            white_spectrum: ndarray, shape (101,)
+                White lamp spectrum.
+            white_wavelength: ndarray, shape (101,)
+                White lamp wavelength.
+            calib_spectrum: ndarray, shape (86016,)
+                Calibration lamp spectrum.
+            calib_wavelength: ndarray, shape (86016,)
+                Calibration lamp wavelength.
+            calib_frame: ndarray, shape (height, width)
+                Calibration frame.
+        """
         # Load dimensions from each file and print out summary info.
         # Load the data files
         darks = loadmat('data/Darks_Shehata_Abdelrahmen.mat')['detector_darks']  # 10x4096x4096

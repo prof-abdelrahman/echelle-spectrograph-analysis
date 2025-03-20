@@ -7,6 +7,19 @@ class Task_e_determine_pixel_sensitivity:
     @staticmethod
     # Pixel sensitivity without wavelength solution
     def determine_pixel_sensitivity(flat, white_spectrum, white_wavelength, order_centers, mean_dark):
+        """
+        Determine pixel sensitivity without using wavelength solution.
+        
+        Args:
+            flat (ndarray): The flat-field image.
+            white_spectrum (ndarray): Intensity values for the white lamp spectrum.
+            white_wavelength (ndarray): Corresponding wavelength values.
+            order_centers (list): List of row indices for order centers.
+            mean_dark (ndarray): Mean dark frame.
+            
+        Returns:
+            ndarray: The sensitivity map.
+        """
         # Remove bias from flat frame
         flat_corrected = flat - mean_dark
         
@@ -130,6 +143,16 @@ class Task_e_determine_pixel_sensitivity:
     def determine_pixel_sensitivity_with_wavelength(flat, order_centers, wavelength_solutions, white_wavelength, white_spectrum):
         """
         Determine pixel sensitivity using the wavelength solution.
+        
+        Args:
+            flat (ndarray): The flat-field image.
+            order_centers (list): List of row indices for order centers.
+            wavelength_solutions (list): List of tuples (order_idx, coefficients, rms_error).
+            white_wavelength (ndarray): Wavelength values for the white lamp spectrum.
+            white_spectrum (ndarray): Corresponding intensity values.
+            
+        Returns:
+            ndarray: The sensitivity map.
         """
         # Print debugging information
         print(f"Number of wavelength solutions: {len(wavelength_solutions)}")

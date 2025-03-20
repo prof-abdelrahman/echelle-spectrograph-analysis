@@ -7,6 +7,12 @@ import os
 class Task_c_and_d_find_and_fit_the_orders:
     @staticmethod
     def flat_frame_image(flat):
+        """
+        Display the flat frame image.
+
+        Args:
+            flat (np.ndarray): The flat frame image.
+        """
         plt.figure(figsize=(12, 6))
         plt.imshow(flat, cmap='viridis', vmin=np.percentile(flat, 5), vmax=np.percentile(flat, 95))
         plt.title('Flat Frame')
@@ -18,6 +24,15 @@ class Task_c_and_d_find_and_fit_the_orders:
     
     @staticmethod
     def identify_orders(flat):
+        """
+        Identify the orders in the flat field image.
+        
+        Args:
+            flat (np.ndarray): The flat field image.
+            
+        Returns:
+            list: The row indices of the detected order centers.
+        """
         # Create a profile by summing along columns (assuming orders run horizontally)
         order_profile = np.sum(flat, axis=1)
         
@@ -38,6 +53,17 @@ class Task_c_and_d_find_and_fit_the_orders:
 
     @staticmethod
     def fit_orders(flat, order_centers):
+        """
+        Fit the orders in the flat field image.
+        
+        Args:
+            flat (np.ndarray): The flat field image.
+            order_centers (list): The row indices of the detected order centers.
+            
+        Returns:
+            order_fits (list): List of tuples containing (x, y_fit, poly_coeffs) for polynomial fits
+            slit_fits (list): List of tuples containing (y, data, popt) for Gaussian fits
+        """
         # Function to fit a Gaussian to the slit profile for a specific order
         def gaussian(x, amplitude, mean, sigma):
             return amplitude * np.exp(-(x - mean)**2 / (2 * sigma**2))

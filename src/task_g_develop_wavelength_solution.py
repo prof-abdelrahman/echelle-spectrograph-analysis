@@ -7,6 +7,12 @@ from scipy.optimize import curve_fit
 class Task_g_develop_wavelength_solution:
     @staticmethod
     def calibration_frame_image(calib_frame):
+        """
+        Display the calibration frame as an image.
+        
+        Parameters:
+        - calib_frame: 2D array with the intensity values of the calibration frame
+        """
         plt.figure(figsize=(12, 6))
         plt.imshow(calib_frame, cmap='viridis', vmin=np.percentile(calib_frame, 5), vmax=np.percentile(calib_frame, 95))
         plt.title('Calibration Frame')
@@ -18,6 +24,17 @@ class Task_g_develop_wavelength_solution:
     
     @staticmethod
     def find_calibration_frame_peaks(calib_frame, order_centers, mean_dark):
+        """
+        Find spectral lines in the calibration frame and fit Gaussians to them.
+        
+        Parameters:
+        - calib_frame: 2D array with the intensity values of the calibration frame.
+        - order_centers: 1D array with the y-positions of the spectral orders.
+        - mean_dark: 2D array with the mean dark frame to subtract (same shape as calib_frame).
+        
+        Returns:
+        - all_peaks: 2D array with the fitted peak parameters (order_idx, y_position, x_position, amplitude, sigma).
+        """
         # # Remove bias from calibration frame (Not needed as per professor's guidance)
         # calib_corrected = calib_frame - mean_dark[:calib_frame.shape[0], :calib_frame.shape[1]]
         
@@ -100,6 +117,17 @@ class Task_g_develop_wavelength_solution:
 
     @staticmethod
     def develop_wavelength_solution(calib_lamp_peaks, frame_peaks):
+        """
+        Develop a wavelength solution by associating detected peaks in the calibration frame
+        with known wavelengths from the calibration lamp.
+        
+        Parameters:
+        - calib_lamp_peaks: 2D array with the known wavelengths and peak positions from the calibration lamp.
+        - frame_peaks: 2D array with the fitted peak parameters (order_idx, y_position, x_position, amplitude, sigma) for each peak.
+        
+        Returns:
+        - wavelength_solutions: List of tuples (order_idx, coeffs, rms_error) with the polynomial fit coefficients and RMS error for each order.
+        """
         # I need to associate the known wavelengths from the calibration lamp
         # with the detected peak positions on the detector
         
@@ -173,7 +201,16 @@ class Task_g_develop_wavelength_solution:
     
     @staticmethod
     def plot_all_wavelength_solutions(wavelength_solutions, frame_peaks):
-        """Plot wavelength solutions for all orders and create a comprehensive visualization"""
+        """Plot wavelength solutions for all orders and create a comprehensive visualization
+        of the spectral coverage.
+        
+        Parameters:
+        - wavelength_solutions: List of tuples (order_idx, coeffs, rms_error) with the polynomial fit coefficients and RMS error for each order.
+        - frame_peaks: 2D array with the fitted peak parameters (order_idx, y_position, x_position, amplitude, sigma) for each peak.
+        
+        Returns:
+        - wavelength_ranges: List of tuples (order_idx, min_wavelength, max_wavelength, rms_error) with the wavelength range for each order.
+        """
         
         # Create a unified figure for all wavelength solutions
         plt.figure(figsize=(12, 8))
